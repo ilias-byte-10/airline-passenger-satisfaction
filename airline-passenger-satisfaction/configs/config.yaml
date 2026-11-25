@@ -1,0 +1,91 @@
+# Configuration centrale du projet : chemins, colonnes, prétraitement, modèles.
+# Modifier ce fichier plutôt que le code pour changer un réglage.
+
+seed: 42
+
+paths:
+  train_csv: data/train.csv
+  test_csv: data/test.csv
+  model: models/best_model.pkl
+  results_dir: results
+
+data:
+  target: satisfaction
+  positive_label: satisfied        # classe codée 1 ; « neutral or dissatisfied » = 0
+  drop_columns: ["Unnamed: 0", "id"]  # index et identifiant : aucune information utile
+
+features:
+  categorical: [Gender, Customer Type, Type of Travel, Class]
+  numeric: [Age, Flight Distance]
+  delays: [Departure Delay in Minutes, Arrival Delay in Minutes]
+  ratings:
+    - Inflight wifi service
+    - Departure/Arrival time convenient
+    - Ease of Online booking
+    - Gate location
+    - Food and drink
+    - Online boarding
+    - Seat comfort
+    - Inflight entertainment
+    - On-board service
+    - Leg room service
+    - Baggage handling
+    - Checkin service
+    - Inflight service
+    - Cleanliness
+  # Notes où 0 signifie « non applicable » (fréquent dans les données).
+  ratings_with_not_applicable:
+    - Inflight wifi service
+    - Departure/Arrival time convenient
+    - Ease of Online booking
+    - Online boarding
+    - Leg room service
+
+# Prétraitement retenu pour le modèle final.
+preprocessing:
+  missing_indicator: false      # ajouter une colonne « retard manquant »
+  log_delays: false             # log(1 + retard) pour réduire l'asymétrie
+  drop_departure_delay: false   # retard départ et arrivée corrélés à 0,97
+  not_applicable_flags: false   # ajouter une colonne « note = 0 (non applicable) »
+  drop_service_ratings: false   # scénario « prédiction avant le vol »
+
+# Variantes comparées par `python main.py --experiments`.
+# Chaque variante modifie seulement les options indiquées par rapport à `preprocessing`.
+experiments:
+  baseline: {}
+  missing_indicator: {missing_indicator: true}
+  log_delays: {log_delays: true}
+  drop_departure_delay: {drop_departure_delay: true}
+  not_applicable_flags: {not_applicable_flags: true}
+  all_combined:
+    missing_indicator: true
+    log_delays: true
+    drop_departure_delay: true
+    not_applicable_flags: true
+  without_service_ratings: {drop_service_ratings: true}
+
+evaluation:
+  cv_folds: 5
+  refit_metric: f1              # métrique utilisée pour choisir le meilleur modèle
+  metrics: [accuracy, precision, recall, f1, roc_auc]
+  permutation_repeats: 5
+
+# Espaces de recherche des hyperparamètres (GridSearchCV).
+# Mettre enabled: false pour exclure un modèle.
+models:
+  decision_tree:
+    enabled: true
+    params:
+      max_depth: [3, 5, 8, 10, 12, 15, 20]
+      min_samples_leaf: [1, 5, 20]
+      criterion: [gini, entropy]
+  logistic_regression:
+    enabled: true
+    params:
+      C: [0.01, 0.1, 1.0, 10.0]
+  random_forest:
+    enabled: false              # à activer si le modèle fait partie du cours
+    params:
+      n_estimators: [100, 300]
+      max_depth: [10, 20, null]
+      min_samples_leaf: [1, 5]

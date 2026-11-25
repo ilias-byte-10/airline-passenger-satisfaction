@@ -1,0 +1,17 @@
+{
+  "model": "decision_tree",
+  "params": {
+    "criterion": "gini",
+    "max_depth": 15,
+    "min_samples_leaf": 5
+  },
+  "test_metrics": {
+    "accuracy": 0.9549199260856175,
+    "precision": 0.95982383605968,
+    "recall": 0.9365079365079365,
+    "f1": 0.9480225487149896,
+    "roc_auc": 0.9832857039893969,
+    "recall_dissatisfied": 0.9693268373018596
+  },
+  "sklearn_version": "1.9.1"
+}

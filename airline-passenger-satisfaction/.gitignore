@@ -1,0 +1,15 @@
+# Données Kaggle : à télécharger (voir README)
+data/*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

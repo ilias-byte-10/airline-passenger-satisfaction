@@ -1,0 +1,20 @@
+variable,value,passengers,satisfied_pct
+Online boarding,0,2428,55.6
+Online boarding,1,10692,13.8
+Online boarding,2,17505,11.5
+Online boarding,3,21804,13.6
+Online boarding,4,30762,62.3
+Online boarding,5,20713,87.2
+Inflight wifi service,0,3103,99.7
+Inflight wifi service,1,17840,32.5
+Inflight wifi service,2,25830,24.9
+Inflight wifi service,3,25868,25.1
+Inflight wifi service,4,19794,59.9
+Inflight wifi service,5,11469,99.1
+Type of Travel,Business travel,71655,58.3
+Type of Travel,Personal Travel,32249,10.2
+Class,Business,49665,69.4
+Class,Eco,46745,18.6
+Class,Eco Plus,7494,24.6
+Customer Type,Loyal Customer,84923,47.7
+Customer Type,disloyal Customer,18981,23.7
